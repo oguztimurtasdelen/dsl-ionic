@@ -1,0 +1,40 @@
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-text-center">Sign In</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    
+    <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+      <!--Email-->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          @if (signinForm.get('email')?.touched && signinForm.get('email')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!--Password-->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          @if (signinForm.get('password')?.touched && signinForm.get('password')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!--Submit Form Button-->
+      <ion-button class="ion-text-capitalize" expand="full" type="submit">Sign In</ion-button>
+    </form>
+  </ion-grid>
+</ion-content>

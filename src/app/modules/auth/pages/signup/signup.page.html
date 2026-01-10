@@ -1,0 +1,158 @@
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-text-center">Sign Up</ion-title>
+        @if (isLoading) {
+          <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        }
+      </ion-toolbar>
+    </ion-header>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <!-- Name -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+          @if (signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Surname -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Surname</ion-label>
+            <ion-input type="text" formControlName="surname"></ion-input>
+          </ion-item>
+          @if (signupForm.get('surname')?.touched && signupForm.get('surname')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Email -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          @if (signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- phoneNumber -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Phone Number</ion-label>
+            <ion-input type="tel" inputmode="numeric" formControlName="phoneNumber"></ion-input>
+          </ion-item>
+          @if (signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['required']) {
+            <small>Required</small>
+          } 
+          @else if (signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['pattern']) {
+            <small>Enter a valid phone number. Örn: +905551112233</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Birth Date -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="stacked">Doğum Tarihi</ion-label>
+            <ion-datetime
+              formControlName="birthDate"
+              presentation="date"
+              [max]="maxDate"
+              display-format="DD-MM-YYYY"
+              placeholder="Doğum tarihi seçin">
+            </ion-datetime>
+          </ion-item>
+          @if (signupForm.get('birthDate')?.touched && signupForm.get('birthDate')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row> 
+      
+
+      <!-- Password -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          @if (signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Password Validation -->
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+          <ion-item>
+            <ion-label position="floating">Password Validation</ion-label>
+            <ion-input type="password" formControlName="passwordValidation"></ion-input>
+          </ion-item>
+          @if (signupForm.get('passwordValidation')?.touched && signupForm.get('passwordValidation')?.errors?.['required']) {
+            <small>Required</small>
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Terms And Conditions Sub From-->
+      <!-- Terms And Condition -->
+      <ion-list formGroupName="termsAndConditions">
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+            <ion-item>
+              <ion-label>Accept <a>Terms And Conditions</a></ion-label> <!--Open a modal dialog to show Terms And Conditions-->
+              <ion-checkbox formControlName="termsAndConditions"></ion-checkbox>
+            </ion-item>
+            @if (signupForm.get('termsAndConditions')?.touched && signupForm.get('termsAndConditions')?.errors?.['required']) {
+              <small>Required</small>
+            }
+          </ion-col>
+        </ion-row>
+
+        <!-- Data Proccessing -->
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+            <ion-item>
+              <ion-label>Accept <a>Data Proccessing</a></ion-label>
+              <ion-checkbox formControlName="dataProcessing"></ion-checkbox>
+            </ion-item>
+            @if (signupForm.get('dataProcessing')?.touched && signupForm.get('dataProcessing')?.errors?.['required']) {
+              <small>Required</small>
+            }
+          </ion-col>
+        </ion-row>
+
+        <!-- Email Subscribe -->
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
+            <ion-item>
+              <ion-label>Join the newsletter list</ion-label>
+              <ion-checkbox formControlName="emailSubscription"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+
+      <!-- Submit Form Button -->
+      <ion-button class="ion-text-capitalize" expand="full" type="submit">Sign Up</ion-button>
+    </form>
+    
+  </ion-grid>
+</ion-content>
