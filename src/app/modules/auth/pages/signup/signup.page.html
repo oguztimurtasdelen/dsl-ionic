@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-header>
       <ion-toolbar>
-        <ion-title class="ion-text-center">Sign Up</ion-title>
+        <ion-title class="ion-text-center">Sign Up Form</ion-title>
         @if (isLoading) {
           <ion-progress-bar type="indeterminate"></ion-progress-bar>
         }
@@ -15,7 +15,7 @@
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Name</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
+            <ion-input type="text" formControlName="name" placeholder="Oğuz Timur"></ion-input>
           </ion-item>
           @if (signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['required']) {
             <small>Required</small>
@@ -28,7 +28,7 @@
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Surname</ion-label>
-            <ion-input type="text" formControlName="surname"></ion-input>
+            <ion-input type="text" formControlName="surname" placeholder="Taşdelen"></ion-input>
           </ion-item>
           @if (signupForm.get('surname')?.touched && signupForm.get('surname')?.errors?.['required']) {
             <small>Required</small>
@@ -41,7 +41,7 @@
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
+            <ion-input type="email" formControlName="email" placeholder="o.tasdelen@runtiya.com"></ion-input>
           </ion-item>
           @if (signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['required']) {
             <small>Required</small>
@@ -54,13 +54,13 @@
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Phone Number</ion-label>
-            <ion-input type="tel" inputmode="numeric" formControlName="phoneNumber"></ion-input>
+            <ion-input type="tel" inputmode="numeric" formControlName="phoneNumber" placeholder="+905551112233"></ion-input>
           </ion-item>
           @if (signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['required']) {
             <small>Required</small>
-          } 
+          }
           @else if (signupForm.get('phoneNumber')?.touched && signupForm.get('phoneNumber')?.errors?.['pattern']) {
-            <small>Enter a valid phone number. Örn: +905551112233</small>
+            <small>Enter a valid phone number. E.g.: +905551112233</small>
           }
         </ion-col>
       </ion-row>
@@ -82,15 +82,15 @@
             <small>Required</small>
           }
         </ion-col>
-      </ion-row> 
-      
+      </ion-row>
+
 
       <!-- Password -->
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
+            <ion-input type="password" formControlName="password" placeholder="********"></ion-input>
           </ion-item>
           @if (signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']) {
             <small>Required</small>
@@ -103,7 +103,7 @@
         <ion-col size="12" size-md="8" size-lg="4" class="ion-text-center">
           <ion-item>
             <ion-label position="floating">Password Validation</ion-label>
-            <ion-input type="password" formControlName="passwordValidation"></ion-input>
+            <ion-input type="password" formControlName="passwordValidation" placeholder="********"></ion-input>
           </ion-item>
           @if (signupForm.get('passwordValidation')?.touched && signupForm.get('passwordValidation')?.errors?.['required']) {
             <small>Required</small>
@@ -152,7 +152,16 @@
 
       <!-- Submit Form Button -->
       <ion-button class="ion-text-capitalize" expand="full" type="submit">Sign Up</ion-button>
+
     </form>
-    
+
+    <ion-alert
+      [isOpen]="showInvalidAlert"
+      header="Invalid Form"
+      message="Please fill all required fields to continue."
+      [buttons]="['OK']"
+      (didDismiss)="showInvalidAlert = false">
+    </ion-alert>
+
   </ion-grid>
 </ion-content>
