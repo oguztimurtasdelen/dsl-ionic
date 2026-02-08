@@ -9,7 +9,7 @@ import { IonContent, IonAlert, IonCard, IonCardHeader, IonCardTitle, IonCardCont
   templateUrl: './devicelist.component.html',
   styleUrls: ['./devicelist.component.scss'],
   standalone: true,
-  imports: [IonCardTitle, IonCardHeader, IonCard, IonSpinner, IonAlert, IonList, IonListHeader, IonLabel, IonItem, IonText],
+  imports: [IonCard, IonSpinner, IonAlert, IonList, IonListHeader, IonLabel, IonItem, IonText],
 })
 export class DevicelistComponent  implements OnInit {
 
