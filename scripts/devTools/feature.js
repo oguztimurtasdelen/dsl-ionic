@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-
+/**
+ * Usage: npm run feature <feature-name>
+ *
+ * Example: npm run feature "User Management"
+ * This will create a new feature named "user-management" with a service and model under modules folder.
+ */
 const { execSync } = require("child_process");
 
 const feature = process.argv[2]

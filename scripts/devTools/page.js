@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-
+/**
+ * Usage: npm run page <feature-name> <page-name>
+ *
+ * Example: npm run page "User Management" "User List"
+ * This will create a feature named "User Management" under the modules folder if it doesn't exist, and then create a new page named "user-list" under that feature with component files such as component.ts, component.html, component.scss and component.spec.ts.
+ */
 const { execSync } = require("child_process");
 const fs = require("fs");
 
