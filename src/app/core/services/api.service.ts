@@ -13,7 +13,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   get<T>(url: string, params?: { [param: string]: any }): Observable<T> {
-    return this.http.get<T>(url, { params });
+    return this.http.get<T>(`${this.baseUrl}/${url}`, { params });
   }
 
   post<T> (url: string, body: any): Observable<T> {
