@@ -1,0 +1,48 @@
+
+  <div class="device-list-container">
+    <ion-card>
+        <!-- Loading State -->
+        @if (loading) {
+          <ion-spinner></ion-spinner>
+          <p>Loading...</p>
+        }
+
+        <!-- Error State -->
+        @if (error && !loading) {
+          <ion-alert
+          [isOpen]="true"
+          header="Error"
+          [message]="error"
+          [buttons]="['Okey']">
+        </ion-alert>
+        }
+
+        <!-- Device List Table -->
+        @if (!loading && devices.length > 0) {
+          <div class="device-table">
+            <ion-list>
+              <ion-list-header>
+                <ion-label><strong>Device List</strong></ion-label>
+              </ion-list-header>
+              @for (device of devices; track device.deviceName) {
+              <ion-item>
+                <ion-label>
+                  <h2>{{ device.deviceName }}</h2>
+                  <p>Code: {{ device.deviceCode }} | Type: {{ device.firmwareVersion }}</p>
+                  <p>Status: <strong>{{ device.status }}</strong></p>
+                </ion-label>
+              </ion-item>
+              }
+            </ion-list>
+          </div>
+        }
+        <!-- Empty State -->
+        @if (!loading && devices.length === 0) {
+         <div class="no-devices">
+            <ion-text color="medium">
+              <p><strong>No Device</strong></p>
+            </ion-text>
+          </div>
+        }
+    </ion-card>
+  </div>
