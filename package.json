@@ -10,7 +10,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "start:app": "ionic serve"
+    "start:app": "ionic serve",
+    "feature": "node scripts/devTools/feature.js",
+    "page": "node scripts/devTools/page.js"
   },
   "private": true,
   "dependencies": {
