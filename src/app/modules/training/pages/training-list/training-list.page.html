@@ -1,13 +1,53 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>training-list</ion-title>
+    <ion-title>My Trainings</ion-title>   
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">training-list</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<ion-content>
+  @if(trainingList.length > 0){
+    <ion-grid>
+
+    <!-- Header -->
+    <ion-row class="table-header">
+      <ion-col><strong>Durum</strong></ion-col>
+      <ion-col><strong>Tarih</strong></ion-col>
+      <ion-col><strong>Detay</strong></ion-col>
+    </ion-row>
+
+    <!-- Rows -->
+    @for (training of trainingList; track training.id) {    
+      <ion-row>    
+        <ion-col>
+          <ion-badge
+            [color]="
+              training.status === 'Completed' ? 'success' :
+              training.status === 'Pending' ? 'warning' :
+              'danger'
+            ">
+            {{ training.status }}
+          </ion-badge>
+        </ion-col>
+
+        <ion-col>
+          {{ training.date | date:'dd.MM.yyyy' }}
+        </ion-col>
+
+        <ion-col>
+          <ion-button size="small" (click)="goToTrainingDetail(training.id)">
+            Detay
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    }
+    </ion-grid>
+  }
+ 
+
+<!-- Empty -->
+<ion-text *ngIf="trainingList.length === 0" class="ion-padding">
+  Henüz antrenman yok.
+</ion-text>
 </ion-content>

@@ -1,20 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid } from '@ionic/angular/standalone';
+import { TrainingListModel } from '../../training.model';
+import { Router } from '@angular/router';
+import { TrainingService } from '../../training.service';
 
 @Component({
   selector: 'app-training-list',
   templateUrl: './training-list.page.html',
   styleUrls: ['./training-list.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonGrid, IonText, IonBadge, IonButton, IonRow, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class TrainingListPage implements OnInit {
+  @Input() trainingList: TrainingListModel[] = [];
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private trainingService: TrainingService
+  ) { }
 
   ngOnInit() {
+    this.loadTrainings();
+  }
+
+  loadTrainings() {
+    this.trainingService.getTrainingList().subscribe({
+      next: (response) => {
+        console.log('Trainings loaded successfully', response);
+        this.trainingList = response;
+      },
+      error: (error) => {
+        console.error('Failed to load trainings', error);
+        this.trainingList = [];
+      }
+    });
+
+  }
+
+  goToTrainingDetail(id: string) {
+    this.router.navigate(['/training-detail', id]);
   }
 
 }

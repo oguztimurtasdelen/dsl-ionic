@@ -23,7 +23,7 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/training/pages/training-list/training-list.page').then( m => m.TrainingListPage)
   },
   {
-    path: 'training-detail',
+    path: 'training-detail/:id',
     loadComponent: () => import('./modules/training/pages/training-detail/training-detail.page').then( m => m.TrainingDetailPage)
   },
 
