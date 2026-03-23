@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCol, IonRow, IonItem, IonButton, IonGrid, IonInput } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
+import { TokenService } from 'src/app/core/services/token.service';
 
 @Component({
   selector: 'app-signin',
@@ -12,13 +13,15 @@ import { AuthenticationService } from '../../authentication.service';
   standalone: true,
   imports: [IonInput, IonGrid, IonButton, IonItem, IonRow, IonCol, IonLabel, IonHeader, IonTitle, IonToolbar, IonContent, CommonModule, FormsModule, ReactiveFormsModule, RouterModule, IonHeader]
 })
-export class SigninPage implements OnInit {
+export class SigninPage  implements OnInit {
   signinForm: FormGroup;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private tokenService: TokenService
   ) {
     this.signinForm = this.formBuilder.group({
       email: ['o.tasdelen@runtiya.com', [Validators.required, Validators.email]],
@@ -35,6 +38,7 @@ export class SigninPage implements OnInit {
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
           console.log('Signin successful', response);
+          this.tokenService.setToken(response.token);
           this.router.navigate(['/home']);
         },
         error: (error) => {

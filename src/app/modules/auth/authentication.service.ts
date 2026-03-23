@@ -11,7 +11,7 @@ export class AuthenticationService {
   constructor(private apiService: ApiService) { }
 
   // Observable will change with strict return type model.
-  signIn(signInForm : SignInModel): Observable<{success: boolean, accesss_token:string}>{
+  signIn(signInForm : SignInModel): Observable<{success: boolean, token:string}>{
     return this.apiService.post('authentication/signin', signInForm);
   }
 
