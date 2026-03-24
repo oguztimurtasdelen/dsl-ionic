@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class TokenService {
-  private readonly TOKEN_KEY = 'token';
+  private accessToken: string | null = null;
 
-  setToken(token: string) {
-    localStorage.setItem(this.TOKEN_KEY, token);
+  set(token: string) {
+    this.accessToken = token;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+  get(): string | null {
+    console.log(this.accessToken);
+    return this.accessToken;
   }
 
-  clearToken() {
-    localStorage.removeItem(this.TOKEN_KEY);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  clear() {
+    this.accessToken = null;
   }
 }

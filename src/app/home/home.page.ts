@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonButtons } from '@ionic/angular/standalone';
 import { DevicelistComponent } from "../modules/device/pages/devicelist/devicelist.component";
+import { TokenService } from '../core/services/token.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonCol, IonRow, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, DevicelistComponent],
+  imports: [IonButtons, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonCol, IonRow, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, DevicelistComponent, IonButton],
 })
 export class HomePage {
-  constructor() {}
+  constructor(
+    private tokenService: TokenService,
+    private router: Router
+
+  ) {}
+  isTokenized = !!this.tokenService.get();
+
+  signOut() {
+    console.log(this.isTokenized);
+    this.tokenService.clear();
+    this.router.navigate(['/signin']);
+  }
+
 }

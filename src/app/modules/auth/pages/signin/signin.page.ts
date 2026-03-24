@@ -38,7 +38,7 @@ export class SigninPage  implements OnInit {
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
           console.log('Signin successful', response);
-          this.tokenService.setToken(response.token);
+          this.tokenService.set(response.accessToken);
           this.router.navigate(['/home']);
         },
         error: (error) => {
