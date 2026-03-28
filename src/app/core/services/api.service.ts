@@ -18,11 +18,7 @@ export class ApiService {
   }
 
   post<T> (url: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}/${url}`, body);
-  }
-
-  postWithCredentials<T> (url: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}/${url}`, body, { withCredentials: true }).pipe(tap(res => console.log('Response from postWithCredentials:', res)));
+    return this.http.post<T>(`${this.baseUrl}/${url}`, body, { withCredentials: true });
   }
 
   put<T>(url: string, body: any): Observable<T> {
