@@ -9,7 +9,6 @@ export class TokenService {
   }
 
   get(): string | null {
-    console.log(this.accessToken);
     return this.accessToken;
   }
 
