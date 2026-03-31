@@ -5,7 +5,6 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCol, IonRow, 
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { TokenService } from 'src/app/core/services/token.service';
-import { SessionService } from 'src/app/core/services/session.service';
 
 @Component({
   selector: 'app-signin',
@@ -22,11 +21,10 @@ export class SigninPage  implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private tokenService: TokenService,
-    private sessionService: SessionService
+    private tokenService: TokenService
   ) {
     this.signinForm = this.formBuilder.group({
-      email: ['oguz.tasdelen@runtiya.com', [Validators.required, Validators.email]],
+      email: ['o.tasdelen@runtiya.com', [Validators.required, Validators.email]],
       password: ['Runtiya.35', [Validators.required]]
     });
   }
@@ -39,8 +37,8 @@ export class SigninPage  implements OnInit {
       console.log('Form Submitted', this.signinForm.value);
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
-          //this.tokenService.set(response.accessToken);
-          //this.sessionService.setUserId(this.sessionService.decodeJWTPayload(response.accessToken).userId);
+          console.log('Signin successful', response);
+          this.tokenService.set(response.accessToken);
           this.router.navigate(['/home']);
         },
         error: (error) => {

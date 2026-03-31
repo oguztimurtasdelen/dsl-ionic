@@ -5,7 +5,6 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonButton,
 import { TrainingListModel } from '../../training.model';
 import { Router } from '@angular/router';
 import { TrainingService } from '../../training.service';
-import { SessionService } from 'src/app/core/services/session.service';
 
 @Component({
   selector: 'app-training-list',
@@ -19,11 +18,8 @@ export class TrainingListPage implements OnInit {
 
   constructor(
     private router: Router,
-    private trainingService: TrainingService,
-    private sessionService: SessionService
+    private trainingService: TrainingService
   ) { }
-
-  userId = this.sessionService.userId;
 
   ngOnInit() {
     this.loadTrainings();

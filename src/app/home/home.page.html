@@ -3,7 +3,7 @@
     <ion-title>
       Runtiya
     </ion-title>
-    @if(userId) {
+    @if(isTokenized) {
       <ion-buttons slot="end">
         <ion-button  (click)="signOut()">
           Sign Out
@@ -19,9 +19,6 @@
       <ion-title size="large">Runtiya</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <p>USERID:</p>
-  <p>{{ userId }}</p>
 
   <div id="container">
   <ion-grid>
