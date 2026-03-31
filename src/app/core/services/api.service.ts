@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { TokenService } from './token.service';
+import { SessionService } from './session.service';
 
 
 @Injectable({
@@ -11,10 +11,17 @@ import { TokenService } from './token.service';
 export class ApiService {
   private baseUrl = environment.apiURL;
 
-  constructor(private http: HttpClient, private tokenService: TokenService) { }
+  constructor(private http: HttpClient, private sessionService: SessionService) { }
 
   get<T>(url: string, params?: { [param: string]: any }): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}/${url}`, { params });
+    const token = this.sessionService.token;
+    let headers = new HttpHeaders();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return this.http.get<T>(`${this.baseUrl}/${url}`, { params, headers});
   }
 
   post<T> (url: string, body: any): Observable<T> {

@@ -79,16 +79,13 @@ export class SignupPage implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submitting form...');
     this.isLoading = true;
     if (this.signupForm.valid) {
       this.signupForm.get('birthDate')?.setValue(
         this.signupForm.get('birthDate')?.getRawValue().split('T')[0]
       );
-      console.log('Form Submitted', this.signupForm.value);
       this.authenticationService.signUp(this.signupForm.value).subscribe({
         next: (response) => {
-          console.log('Signup successful', response);
           this.router.navigate(['/signin']);
         },
         error: (error) => {
@@ -97,7 +94,6 @@ export class SignupPage implements OnInit {
       });
     } else {
       this.signupForm.markAllAsTouched();
-      console.log('Form is invalid', this.signupForm.value);
       this.showInvalidAlert = true;
     }
     this.isLoading = false;

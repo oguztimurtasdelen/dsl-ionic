@@ -3,6 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, I
 import { DevicelistComponent } from "../modules/device/pages/devicelist/devicelist.component";
 import { TokenService } from '../core/services/token.service';
 import { Router } from '@angular/router';
+import { SessionService } from '../core/services/session.service';
 
 @Component({
   selector: 'app-home',
@@ -13,13 +14,15 @@ import { Router } from '@angular/router';
 export class HomePage {
   constructor(
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private sessionService: SessionService
 
   ) {}
   isTokenized = !!this.tokenService.get();
+  userId = this.sessionService.userId;
 
   signOut() {
-    console.log(this.isTokenized);
+    this.sessionService.clearUserId();
     this.tokenService.clear();
     this.router.navigate(['/signin']);
   }

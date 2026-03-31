@@ -1,11 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>My Trainings</ion-title>   
+    <ion-title>My Trainings</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
+   <p>USERID:</p>
+  <p>{{ userId }}</p>
   @if(trainingList.length > 0){
     <ion-grid>
 
@@ -17,8 +19,8 @@
     </ion-row>
 
     <!-- Rows -->
-    @for (training of trainingList; track training.id) {    
-      <ion-row>    
+    @for (training of trainingList; track training.id) {
+      <ion-row>
         <ion-col>
           <ion-badge
             [color]="
@@ -44,7 +46,7 @@
     }
     </ion-grid>
   }
- 
+
 
 <!-- Empty -->
 <ion-text *ngIf="trainingList.length === 0" class="ion-padding">

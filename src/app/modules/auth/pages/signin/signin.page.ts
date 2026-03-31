@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCol, IonRow, 
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { TokenService } from 'src/app/core/services/token.service';
+import { SessionService } from 'src/app/core/services/session.service';
 
 @Component({
   selector: 'app-signin',
@@ -21,10 +22,11 @@ export class SigninPage  implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private sessionService: SessionService
   ) {
     this.signinForm = this.formBuilder.group({
-      email: ['o.tasdelen@runtiya.com', [Validators.required, Validators.email]],
+      email: ['oguz.tasdelen@runtiya.com', [Validators.required, Validators.email]],
       password: ['Runtiya.35', [Validators.required]]
     });
   }
@@ -34,11 +36,10 @@ export class SigninPage  implements OnInit {
 
   onSubmit() {
     if (this.signinForm.valid) {
-      console.log('Form Submitted', this.signinForm.value);
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
-          console.log('Signin successful', response);
-          this.tokenService.set(response.accessToken);
+          this.sessionService.setToken(response.accessToken);
+          this.sessionService.setUserId(this.sessionService.decodeJWTPayload(response.accessToken).userId);
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -46,7 +47,6 @@ export class SigninPage  implements OnInit {
         }
       });
     } else {
-      console.log('Form is invalid');
       this.signinForm.markAllAsTouched();
       return;
     }

@@ -37,9 +37,7 @@ export class DevicelistComponent  implements OnInit {
   loadDevices(): void {
     this.deviceService.getDeviceList().subscribe({
       next: (response) => {
-        console.log('Devices loaded successfully', response);
         for (let device of response) {
-          console.log('Device:', device);
           device.deviceCode = device.deviceCode;
           device.deviceName = device.deviceName;
           device.status = device.status;
