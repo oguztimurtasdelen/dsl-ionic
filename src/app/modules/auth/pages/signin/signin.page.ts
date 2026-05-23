@@ -37,7 +37,6 @@ export class SigninPage  implements OnInit {
     if (this.signinForm.valid) {
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
-          console.log(response);
           this.sessionService.setAccessToken(response.accessToken);
           this.sessionService.setCurrentUser(response.user as IUser);
           this.router.navigate(['/home']);

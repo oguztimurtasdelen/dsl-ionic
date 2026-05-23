@@ -22,12 +22,8 @@ import {
       private readonly router: Router
     ) {}
   
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  
-      console.log('AuthInterceptor');
-  
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {  
       const accessToken = this.sessionService.accessToken;
-  
       let request = req;
   
       // ACCESS TOKEN ATTACH

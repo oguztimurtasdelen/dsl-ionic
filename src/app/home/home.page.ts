@@ -24,9 +24,6 @@ export class HomePage {
   ngOnInit() {
     this.sessionService.loadCurrentUser();
     this.sessionService.loadAccessToken();
-    console.log('home page');
-    console.log(this.sessionService.currentUser);
-    console.log(this.sessionService.accessToken);
   }
 
   signOut() {
