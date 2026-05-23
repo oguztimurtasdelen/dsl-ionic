@@ -14,14 +14,14 @@ export class ApiService {
   constructor(private http: HttpClient, private sessionService: SessionService) { }
 
   get<T>(url: string, params?: { [param: string]: any }): Observable<T> {
-    const token = this.sessionService.token;
+    /*const token = this.sessionService.accessToken;
     let headers = new HttpHeaders();
 
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-
-    return this.http.get<T>(`${this.baseUrl}/${url}`, { params, headers});
+    */
+    return this.http.get<T>(`${this.baseUrl}/${url}`, { params, withCredentials: true});
   }
 
   post<T> (url: string, body: any): Observable<T> {
@@ -34,5 +34,12 @@ export class ApiService {
 
   delete<T>(url: string, params?: { [param: string]: any }): Observable<T> {
     return this.http.delete<T>(url, { params });
+  }
+
+  refreshToken(): Observable<{ accessToken: string }> {
+
+    return this.http.post<{ accessToken: string }>(
+      `${this.baseUrl}/authentication/refresh`,{},{withCredentials: true}
+    );
   }
 }

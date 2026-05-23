@@ -25,3 +25,17 @@ export interface TermsAndConditions{
   dataProcessing: boolean;
   emailSubscription: boolean;
 }
+
+export interface IProfile{
+  _id: string;
+  user: string;
+  avatar?: string | null;
+}
+export interface IUser{
+  _id: string;
+  name: string;
+  surname: string;
+  profile?: IProfile | null;
+}
+
+

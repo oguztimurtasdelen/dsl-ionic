@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCol, IonRow, IonItem, IonButton, IonGrid, IonInput } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
-import { TokenService } from 'src/app/core/services/token.service';
 import { SessionService } from 'src/app/core/services/session.service';
+import { IUser } from '../../authentication.model';
 
 @Component({
   selector: 'app-signin',
@@ -22,7 +22,6 @@ export class SigninPage  implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private tokenService: TokenService,
     private sessionService: SessionService
   ) {
     this.signinForm = this.formBuilder.group({
@@ -38,8 +37,9 @@ export class SigninPage  implements OnInit {
     if (this.signinForm.valid) {
       this.authenticationService.signIn(this.signinForm.value).subscribe({
         next: (response) => {
-          this.sessionService.setToken(response.accessToken);
-          this.sessionService.setUserId(this.sessionService.decodeJWTPayload(response.accessToken).userId);
+          console.log(response);
+          this.sessionService.setAccessToken(response.accessToken);
+          this.sessionService.setCurrentUser(response.user as IUser);
           this.router.navigate(['/home']);
         },
         error: (error) => {

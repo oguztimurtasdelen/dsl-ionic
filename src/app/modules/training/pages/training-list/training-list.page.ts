@@ -23,7 +23,7 @@ export class TrainingListPage implements OnInit {
     private sessionService: SessionService
   ) { }
 
-  userId = this.sessionService.userId;
+  _currentUser = this.sessionService.currentUser;
 
   ngOnInit() {
     this.loadTrainings();

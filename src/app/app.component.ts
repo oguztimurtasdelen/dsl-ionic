@@ -9,7 +9,7 @@ import { SessionService } from './core/services/session.service';
 })
 export class AppComponent {
   constructor(private sessionService: SessionService) {
-    this.sessionService.loadUserId();
-    this.sessionService.loadToken();
+    this.sessionService.loadCurrentUser();
+    this.sessionService.loadAccessToken();
   }
 }

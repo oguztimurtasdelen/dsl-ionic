@@ -1,72 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Preferences } from '@capacitor/preferences';;
+import { Preferences } from '@capacitor/preferences';import { IUser } from 'src/app/modules/auth/authentication.model';
+;
 @Injectable({ providedIn: 'root' })
 export class SessionService {
-  private _userId: string | null = null;
-  private _token: string | null = null;
-
-  async setUserId(id: string) {
-    this._userId = id;
-    await Preferences.set({ key: 'userId', value: id });
+  private _currentUser: IUser | null = null;
+  private _accessToken: string | null = null;
+  
+  // Current User Operations
+  get currentUser(): IUser | null {
+    return this._currentUser;
   }
 
-  async loadUserId() {
-    if (!this._userId) {
-      const { value } = await Preferences.get({ key: 'userId' });
-      this._userId = value;
+  async setCurrentUser(user: IUser | null) {
+    this._currentUser = user;
+    await Preferences.set({key: 'currentUser', value: JSON.stringify(user)});
+  }
+
+  async loadCurrentUser(): Promise<IUser | null> {
+    if (!this._currentUser) {
+      const { value } = await Preferences.get({key: 'currentUser'});
+      this._currentUser = value ? JSON.parse(value) as IUser : null;
     }
-    return this._userId;
+  
+    return this._currentUser;
+  }
+  
+  async clearCurrentUser() {
+    this._currentUser = null;
+    await Preferences.remove({key: 'currentUser'});
   }
 
-  get userId(): string | null {
-    return this._userId;
+  
+  // Access Token Operations
+  get accessToken(): string | null {
+    return this._accessToken;
   }
 
-  async clearUserId() {
-    this._userId = null;
-    await Preferences.remove({ key: 'userId' });
+
+  async setAccessToken(token: string) {
+    this._accessToken = token;
+    await Preferences.set({ key: 'accessToken', value: token });
   }
 
-  decodeJWTPayload<T = any>(token: string): T | null {
-    try {
-      // JWT üç parçadan oluşur: header.payload.signature
-      const payloadBase64 = token.split('.')[1];
-
-      if (!payloadBase64) return null;
-
-      // Base64 URL-safe decode → atob sadece standart base64 kabul eder
-      const payloadBase64Padded = payloadBase64
-        .replace(/-/g, '+')
-        .replace(/_/g, '/')
-        + '='.repeat((4 - (payloadBase64.length % 4)) % 4);
-
-      const payloadJson = atob(payloadBase64Padded);
-      return JSON.parse(payloadJson) as T;
-    } catch (e) {
-      console.error('Invalid JWT', e);
-      return null;
+  async loadAccessToken() {
+    if (!this._accessToken) {
+      const { value } = await Preferences.get({ key: 'accessToken' });
+      this._accessToken = value;
     }
+    return this._accessToken;
   }
 
-  async setToken(token: string) {
-    this._token = token;
-    await Preferences.set({ key: 'token', value: token });
-  }
-
-  async loadToken() {
-    if (!this._token) {
-      const { value } = await Preferences.get({ key: 'token' });
-      this._token = value;
-    }
-    return this._token;
-  }
-
-  get token(): string | null {
-    return this._token;
-  }
-
-  async clearToken() {
-    this._token = null;
-    await Preferences.remove({ key: 'token' });
+  async clearAccessToken() {
+    this._accessToken = null;
+    await Preferences.remove({ key: 'accessToken' });
   }
 }

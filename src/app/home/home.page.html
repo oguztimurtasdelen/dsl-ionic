@@ -3,7 +3,7 @@
     <ion-title>
       Runtiya
     </ion-title>
-    @if(userId) {
+    @if(_currentUser) {
       <ion-buttons slot="end">
         <ion-button  (click)="signOut()">
           Sign Out
@@ -21,7 +21,7 @@
   </ion-header>
 
   <p>USERID:</p>
-  <p>{{ userId }}</p>
+  <p>{{ _currentUser?.name }}</p>
 
   <div id="container">
   <ion-grid>

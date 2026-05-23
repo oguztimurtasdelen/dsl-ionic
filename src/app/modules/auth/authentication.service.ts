@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { SignInModel, SignUpModel } from './authentication.model';
+import { IUser, SignInModel, SignUpModel } from './authentication.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class AuthenticationService {
   constructor(private apiService: ApiService) { }
 
   // Observable will change with strict return type model.
-  signIn(signInForm : SignInModel): Observable<{success: boolean, accessToken:string}>{
+  signIn(signInForm : SignInModel): Observable<{success: boolean, accessToken:string, user: IUser}>{
     return this.apiService.post('authentication/signin', signInForm);
   }
 
