@@ -5,7 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCol, IonRow, 
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { SessionService } from 'src/app/core/services/session.service';
-import { IUser } from '../../authentication.model';
+import { IUser } from 'src/app/core/dto/user.interface';
 
 @Component({
   selector: 'app-signin',

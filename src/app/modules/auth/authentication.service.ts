@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { IUser, SignInModel, SignUpModel } from './authentication.model';
+import { SignInModel, SignUpModel } from './authentication.model';
+import { IUser } from 'src/app/core/dto/user.interface';
 
 @Injectable({
   providedIn: 'root'
