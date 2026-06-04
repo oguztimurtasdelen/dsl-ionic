@@ -1,13 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>My Trainings</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
-<ion-content>
-   <p>USERID:</p>
-  <p>{{ _currentUser?.name }}</p>
+<ion-content [fullscreen]="true">
+  <div id="container" class="ion-padding">
   @if(trainingList.length > 0){
     <ion-grid>
 
@@ -52,4 +44,5 @@
 <ion-text *ngIf="trainingList.length === 0" class="ion-padding">
   Henüz antrenman yok.
 </ion-text>
+</div>
 </ion-content>

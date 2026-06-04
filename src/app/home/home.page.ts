@@ -12,24 +12,11 @@ import { SessionService } from '../core/services/session.service';
 })
 export class HomePage {
   constructor(
-    
-    private router: Router,
     private sessionService: SessionService
 
   ) {}
   isTokenized = !!this.sessionService.accessToken;
   _currentUser = this.sessionService.currentUser;
-  
 
-  ngOnInit() {
-    this.sessionService.loadCurrentUser();
-    this.sessionService.loadAccessToken();
-  }
-
-  signOut() {
-    this.sessionService.clearCurrentUser();
-    this.sessionService.clearAccessToken();
-    this.router.navigate(['/signin']);
-  }
 
 }
