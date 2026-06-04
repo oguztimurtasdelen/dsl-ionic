@@ -60,7 +60,7 @@ export class SignupPage implements OnInit {
         password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*\d).+$/)]],
         passwordValidation: ['', [Validators.required]],
         userRole: [this.userRoles["USER"], [Validators.required]],
-        userType: [this.userTypes["ATHLETE"], [Validators.required]],
+        userType: [this.userTypes["PLAYER"], [Validators.required]],
         termsAndConditions: this.formBuilder.group({
           termsAndConditions: [false, [Validators.requiredTrue]],
           dataProcessing: [false, [Validators.requiredTrue]],
