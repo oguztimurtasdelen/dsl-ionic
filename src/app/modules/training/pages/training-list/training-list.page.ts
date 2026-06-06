@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid, IonCardContent, IonCardTitle, IonCard, IonCardHeader } from '@ionic/angular/standalone';
+import { IonContent, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid } from '@ionic/angular/standalone';
 import { TrainingListModel } from '../../training.model';
 import { Router } from '@angular/router';
 import { TrainingService } from '../../training.service';
@@ -12,7 +12,7 @@ import { SessionService } from 'src/app/core/services/session.service';
   templateUrl: './training-list.page.html',
   styleUrls: ['./training-list.page.scss'],
   standalone: true,
-  imports: [IonCardHeader, IonCard, IonCardTitle, IonCardContent, IonGrid, IonText, IonBadge, IonButton, IonRow, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonGrid, IonText, IonBadge, IonButton, IonRow, IonCol, IonContent, CommonModule, FormsModule]
 })
 export class TrainingListPage implements OnInit {
   @Input() trainingList: TrainingListModel[] = [];
