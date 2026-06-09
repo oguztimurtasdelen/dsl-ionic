@@ -15,7 +15,7 @@ export class HomePage {
 
   ) {}
   isTokenized = !!this.sessionService.accessToken;
-  _currentUser = this.sessionService.currentUser;
+  _currentUser = this.sessionService.currentUserID;
 
 
 }

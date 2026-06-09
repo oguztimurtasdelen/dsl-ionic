@@ -45,7 +45,7 @@ import { filter, startWith, Subject, takeUntil } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
-  userFullName = 'Misafir'; // Direkt başlangıç değer ver
+  userID = 'Misafir'; // Direkt başlangıç değer ver
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -72,9 +72,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private updateUserInfo() {
-    const user = this.sessionService.currentUser;
-    this.isLoggedIn = !!user;
-    this.userFullName = user?.name || 'Misafir';
+    const userID = this.sessionService.currentUserID;
+    this.isLoggedIn = !!userID;
+    this.userID = userID || 'Misafir';
   }
 
   logout() {

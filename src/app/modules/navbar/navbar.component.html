@@ -12,7 +12,7 @@
 
       <ion-buttons slot="end">
 
-        <p class="ion-text-wrap ion-margin-end">Welcome, {{ userFullName }}</p>
+        <p class="ion-text-wrap ion-margin-end">Welcome, {{ userID }}</p>
 
         <ion-button (click)="logout()" color="light" fill="outline">
           <ion-icon name="log-out" slot="end" size="large"></ion-icon>
@@ -32,7 +32,7 @@
   <ion-content>
     <ion-list>
       <ion-item>
-        <ion-label><strong>{{ userFullName }}</strong></ion-label>
+        <ion-label><strong>{{ userID }}</strong></ion-label>
       </ion-item>
       <ion-menu-toggle auto-hide="false">
         <ion-item button (click)="navigateTo('/home')">

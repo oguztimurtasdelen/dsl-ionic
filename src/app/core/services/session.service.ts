@@ -2,66 +2,18 @@ import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from 'src/app/core/dto/user.interface';
+import { IProfile } from '../dto/profile.interface';
 ;
 @Injectable({ providedIn: 'root' })
 export class SessionService {
-  private _currentUser: IUser | null = null;
+  private _currentUserID: string | null = null;
+  private _currentProfile: IProfile | null = null;
   private _accessToken: string | null = null;
   private _isInitialized = new BehaviorSubject<boolean>(false);
 
-    isInitialized$ = this._isInitialized.asObservable();
+  isInitialized$ = this._isInitialized.asObservable();
 
-
-  // Current User Operations
-  get currentUser(): IUser | null {
-    return this._currentUser;
-  }
-
-  async setCurrentUser(user: IUser | null) {
-    this._currentUser = user;
-    await Preferences.set({key: 'currentUser', value: JSON.stringify(user)});
-  }
-
-  async loadCurrentUser(): Promise<IUser | null> {
-    if (!this._currentUser) {
-      const { value } = await Preferences.get({key: 'currentUser'});
-      this._currentUser = value ? JSON.parse(value) as IUser : null;
-    }
-
-    return this._currentUser;
-  }
-
-  async clearCurrentUser() {
-    this._currentUser = null;
-    await Preferences.remove({key: 'currentUser'});
-  }
-
-
-  // Access Token Operations
-  get accessToken(): string | null {
-    return this._accessToken;
-  }
-
-
-  async setAccessToken(token: string) {
-    this._accessToken = token;
-    await Preferences.set({ key: 'accessToken', value: token });
-  }
-
-  async loadAccessToken() {
-    if (!this._accessToken) {
-      const { value } = await Preferences.get({ key: 'accessToken' });
-      this._accessToken = value;
-    }
-    return this._accessToken;
-  }
-
-  async clearAccessToken() {
-    this._accessToken = null;
-    await Preferences.remove({ key: 'accessToken' });
-  }
-
-  // Initialize method - tüm verileri yükler
+  // Initialize method - Try to load session data and set initialized flag
   async initialize() {
     try {
       await this.loadSession();
@@ -72,17 +24,61 @@ export class SessionService {
     }
   }
 
+  // Get Initialization Status Flag
   getIsInitialized(): boolean {
     return this._isInitialized.value;
   }
 
+  // Clear entire session for each data point
   async clearSession() {
-    await this.clearCurrentUser();
+    await this.clearCurrentUserID();
     await this.clearAccessToken();
   }
 
+  // Load entire session for each data point
   async loadSession() {
-    await this.loadCurrentUser();
+    await this.loadCurrentUserID();
     await this.loadAccessToken();
+  }
+
+  // GETTER Session Functions
+  get currentUserID(): string | null { return this._currentUserID; }
+  get accessToken(): string | null { return this._accessToken; }
+
+  // SETTER Session Functions
+  async setCurrentUser(user: IUser) {
+    this._currentUserID = user._id;
+    await Preferences.set({key: 'currentUserID', value: this._currentUserID});
+  }
+  async setAccessToken(token: string) {
+    this._accessToken = token;
+    await Preferences.set({ key: 'accessToken', value: token });
+  }
+
+  // LOADER Session Functions
+  async loadCurrentUserID(){
+    if (!this._currentUserID) {
+      const { value } = await Preferences.get({key: 'currentUserID'});
+      this._currentUserID = value;
+    }
+    return this._currentUserID;
+  }
+
+  async loadAccessToken() {
+    if (!this._accessToken) {
+      const { value } = await Preferences.get({ key: 'accessToken' });
+      this._accessToken = value;
+    }
+    return this._accessToken;
+  }
+
+  // CLEANER Session Functions
+  async clearCurrentUserID() {
+    this._currentUserID = null;
+    await Preferences.remove({key: 'currentUserID'});
+  }
+  async clearAccessToken() {
+    this._accessToken = null;
+    await Preferences.remove({ key: 'accessToken' });
   }
 }
