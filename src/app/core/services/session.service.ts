@@ -7,7 +7,7 @@ import { IProfile } from '../dto/profile.interface';
 @Injectable({ providedIn: 'root' })
 export class SessionService {
   private _currentUserID: string | null = null;
-  private _currentProfile: IProfile | null = null;
+  private _currentProfileID: string | null = null;
   private _accessToken: string | null = null;
   private _isInitialized = new BehaviorSubject<boolean>(false);
 
@@ -31,21 +31,28 @@ export class SessionService {
 
   // Clear entire session for each data point
   async clearSession() {
+    await this.clearCurrentProfileID();
     await this.clearCurrentUserID();
     await this.clearAccessToken();
   }
 
   // Load entire session for each data point
   async loadSession() {
+    await this.loadCurrentProfileID();
     await this.loadCurrentUserID();
     await this.loadAccessToken();
   }
 
   // GETTER Session Functions
+  get currentProfileID(): string | null { return this._currentProfileID; }
   get currentUserID(): string | null { return this._currentUserID; }
   get accessToken(): string | null { return this._accessToken; }
 
   // SETTER Session Functions
+  async setCurrentProfile(profile: IProfile) {
+    this._currentProfileID = profile._id;
+    await Preferences.set({key: 'currentProfileID', value: this._currentProfileID});
+  }
   async setCurrentUser(user: IUser) {
     this._currentUserID = user._id;
     await Preferences.set({key: 'currentUserID', value: this._currentUserID});
@@ -56,6 +63,13 @@ export class SessionService {
   }
 
   // LOADER Session Functions
+  async loadCurrentProfileID(){
+    if (!this._currentProfileID) {
+      const { value } = await Preferences.get({key: 'currentProfileID'});
+      this._currentProfileID = value;
+    }
+    return this._currentProfileID;
+  }
   async loadCurrentUserID(){
     if (!this._currentUserID) {
       const { value } = await Preferences.get({key: 'currentUserID'});
@@ -73,6 +87,10 @@ export class SessionService {
   }
 
   // CLEANER Session Functions
+  async clearCurrentProfileID() {
+    this._currentProfileID = null;
+    await Preferences.remove({key: 'currentProfileID'});
+  }
   async clearCurrentUserID() {
     this._currentUserID = null;
     await Preferences.remove({key: 'currentUserID'});

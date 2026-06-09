@@ -45,7 +45,8 @@ import { filter, startWith, Subject, takeUntil } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
-  userID = 'Misafir'; // Direkt başlangıç değer ver
+  userID = 'None';
+  profileID = 'None';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -59,6 +60,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Mevcut kullanıcı varsa hemen göster
     this.updateUserInfo();
+    this.updateProfileInfo();
 
     // Sonra subscription ile değişiklikleri dinle
     this.sessionService.isInitialized$
@@ -68,13 +70,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.updateUserInfo();
+        this.updateProfileInfo();
       });
   }
 
   private updateUserInfo() {
     const userID = this.sessionService.currentUserID;
     this.isLoggedIn = !!userID;
-    this.userID = userID || 'Misafir';
+    this.userID = userID || 'None';
+  }
+
+  private updateProfileInfo() {
+    const profileID = this.sessionService.currentProfileID;
+    this.isLoggedIn = !!profileID;
+    this.profileID = profileID || 'None';
   }
 
   logout() {

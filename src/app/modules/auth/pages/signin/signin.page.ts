@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
 import { SessionService } from 'src/app/core/services/session.service';
 import { IUser } from 'src/app/core/dto/user.interface';
+import { IProfile } from 'src/app/core/dto/profile.interface';
 
 @Component({
   selector: 'app-signin',
@@ -39,6 +40,7 @@ export class SigninPage  implements OnInit {
         next: (response) => {
           this.sessionService.setAccessToken(response.accessToken);
           this.sessionService.setCurrentUser(response.user as IUser);
+          this.sessionService.setCurrentProfile(response.user.profile as IProfile);
           this.router.navigate(['/home']);
         },
         error: (error) => {
