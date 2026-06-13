@@ -40,11 +40,19 @@ export class SigninPage  implements OnInit {
         next: (response) => {
           this.sessionService.setAccessToken(response.accessToken);
           this.sessionService.setCurrentUser(response.user as IUser);
-          this.sessionService.setCurrentProfile(response.user.profile as IProfile);
-          this.router.navigate(['/home']);
+          if(response.isThereProfile){
+            this.sessionService.setCurrentProfile(response.user.profile as IProfile);
+            this.router.navigate(['/home']);
+            return;
+          }
+          else {
+            this.router.navigate(['/create-profile']);
+            return;
+          }
+
         },
         error: (error) => {
-          console.error('Signin failed', error);
+            console.error('Signin failed', error);
         }
       });
     } else {

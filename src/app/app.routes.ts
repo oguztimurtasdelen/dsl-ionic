@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./modules/auth/pages/signin/signin.page').then( m => m.SigninPage)
   },
   {
+    path: 'create-profile',
+    loadComponent: () => import('./modules/profile/pages/create-profile/create-profile').then( m => m.CreateProfilePage)
+  },
+  {
     path: 'training-list',
     loadComponent: () => import('./modules/training/pages/training-list/training-list.page').then( m => m.TrainingListPage)
   },

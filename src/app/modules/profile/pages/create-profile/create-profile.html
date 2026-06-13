@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Profil Oluştur</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="profile-card">
+    <ion-card-content>
+      <!-- Error Message -->
+      @if (errorMessage) {
+        <div class="error-alert">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+        <!-- Nickname -->
+        <ion-item class="form-item">
+          <ion-label position="floating">Kullanıcı Adı *</ion-label>
+          <ion-input
+            type="text"
+            formControlName="nickname"
+            placeholder="Örn: john_doe">
+          </ion-input>
+        </ion-item>
+        @if (profileForm.get('nickname')?.invalid && profileForm.get('nickname')?.touched) {
+          <div class="error-message">
+            {{ getNicknameErrorMessage() }}
+          </div>
+        }
+
+        <!-- Avatar -->
+        <ion-item class="form-item">
+          <ion-label position="floating">Avatar URL</ion-label>
+          <ion-input
+            type="text"
+            formControlName="avatar"
+            placeholder="https://example.com/avatar.jpg">
+          </ion-input>
+        </ion-item>
+
+        <!-- Buttons -->
+        <div class="button-group ion-margin-top">
+          <ion-button
+            expand="block"
+            color="primary"
+            [disabled]="profileForm.invalid || loading"
+            type="submit">
+            @if(!loading){<span>Profil Oluştur</span>}
+                        @if(!loading){<span>Yükleniyor....</span>}
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            color="medium"
+            (click)="onCancel()"
+            [disabled]="loading">
+            İptal
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   showNavbar = true;
   sessionInitialized = false; // ← Ekle
 
-  private noNavbarRoutes = ['signin', 'signup'];
+  private noNavbarRoutes = ['signin', 'signup', 'create-profile'];
 
   constructor(
     private sessionService: SessionService,
