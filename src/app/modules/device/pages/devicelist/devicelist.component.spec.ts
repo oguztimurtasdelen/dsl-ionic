@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { of } from 'rxjs';
 
+import { DeviceService } from '../../device.service';
+import { DeviceStatusEnum } from '../../enums/device-status.enum';
+import { getDeviceStatusColor } from '../../helpers/device-status.helper';
 import { DevicelistComponent } from './devicelist.component';
 
 describe('DevicelistComponent', () => {
@@ -9,6 +13,14 @@ describe('DevicelistComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [DevicelistComponent],
+      providers: [
+        {
+          provide: DeviceService,
+          useValue: {
+            getDeviceList: () => of({ devices: [], pagination: null })
+          }
+        }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DevicelistComponent);
@@ -18,5 +30,9 @@ describe('DevicelistComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return the expected color for a known device status', () => {
+    expect(getDeviceStatusColor(DeviceStatusEnum.AVAILABLE)).toBe('#2dd36f');
   });
 });

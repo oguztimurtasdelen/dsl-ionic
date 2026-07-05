@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../../device.service';
 import { DeviceListModel } from '../../device.model';
 import { IonContent, IonAlert, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonSpinner, IonList, IonListHeader, IonLabel, IonItem, IonText } from "@ionic/angular/standalone";
+import { GetDevicesResponse } from '../../interface/get-devices.response';
+import { getDeviceStatusColor } from '../../helpers/device-status.helper';
 
 
 @Component({
@@ -16,15 +18,8 @@ export class DevicelistComponent  implements OnInit {
   loading = true;
   error: string | null = null;
 
-  device: DeviceListModel = {
-     deviceCode: '',
-    deviceName: '',
-    status: '',
-    firmwareVersion: '',
-    description: ''
-  };
-
   devices : DeviceListModel[] = [];
+  pagination: GetDevicesResponse['pagination'] | null = null;
 
   constructor(
     private deviceService: DeviceService
@@ -36,16 +31,11 @@ export class DevicelistComponent  implements OnInit {
 
   loadDevices(): void {
     this.deviceService.getDeviceList().subscribe({
-      next: (response) => {
-        for (let device of response) {
-          device.deviceCode = device.deviceCode;
-          device.deviceName = device.deviceName;
-          device.status = device.status;
-          device.firmwareVersion = device.firmwareVersion;
-          device.description = device.description;
-
+      next: (response: GetDevicesResponse) => {
+        for (let device of response.devices) {
           this.devices.push(device);
         }
+        this.pagination = response.pagination;
         this.loading = false;
       },
       error: (error) => {
@@ -54,5 +44,9 @@ export class DevicelistComponent  implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  getStatusColor(status: string): string {
+    return getDeviceStatusColor(status);
   }
 }

@@ -29,7 +29,14 @@
                 <ion-label>
                   <h2>{{ device.deviceName }}</h2>
                   <p>Code: {{ device.deviceCode }} | Type: {{ device.firmwareVersion }}</p>
-                  <p>Status: <strong>{{ device.status }}</strong></p>
+                  <p>
+                    Status:
+                    <strong>{{ device.deviceStatus }}</strong>
+                    <span
+                      class="status-dot"
+                      [style.background-color]="getStatusColor(device.deviceStatus)">
+                    </span>
+                  </p>
                 </ion-label>
               </ion-item>
               }
