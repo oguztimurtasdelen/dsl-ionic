@@ -1,11 +1,18 @@
 #container {
   text-align: center;
-
+  padding: 16px;
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.create-training-button {
+  margin-bottom: 16px;
+  --border-radius: 12px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
 }
 
 #container strong {

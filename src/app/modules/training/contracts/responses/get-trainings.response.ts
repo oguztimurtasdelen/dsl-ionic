@@ -1,4 +1,4 @@
-import { TrainingListModel } from '../training.model';
+import { TrainingListModel } from 'src/app/modules/training/training.model';
 
 export interface GetTrainingsResponse {
   trainings: TrainingListModel[];

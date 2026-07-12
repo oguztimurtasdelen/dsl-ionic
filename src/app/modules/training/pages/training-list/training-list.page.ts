@@ -5,11 +5,10 @@ import { IonContent, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid, IonS
 import { TrainingListModel } from '../../training.model';
 import { Router } from '@angular/router';
 import { TrainingService } from '../../training.service';
-import { SessionService } from 'src/app/core/services/session.service';
-import { GetTrainingsResponse } from '../../interface/get-trainings.response';
+import { GetTrainingsResponse } from '../../contracts/responses/get-trainings.response';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { TrainingTypeEnum } from '../../enums/training-type.enum';
-import { getTrainingStatusColor } from '../../helpers/training-status.helper';
+import { getTrainingStatusColor } from '../../helpers/training.helper';
 import { buildQueryParams } from 'src/app/core/helpers/query-params.helper';
 
 @Component({
@@ -41,7 +40,8 @@ export class TrainingListPage implements OnInit {
   }
 
   loadTrainings(): void {
-    this.trainingService.getTrainingList(this.buildQueryParams()).subscribe({
+    let queryParams = this.buildQueryParams();
+    this.trainingService.getTrainingList(queryParams).subscribe({
       next: (response: GetTrainingsResponse) => {
         this.trainingList = response.trainings;
         this.loading = false;
