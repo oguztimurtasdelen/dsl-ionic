@@ -2,14 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid, IonSpinner } from '@ionic/angular/standalone';
-import { TrainingListModel } from '../../training.model';
+import { ITraining } from '../../training.model';
 import { Router } from '@angular/router';
 import { TrainingService } from '../../training.service';
-import { GetTrainingsResponse } from '../../contracts/responses/get-trainings.response';
+import { GetTrainingsResponseDto } from '../../dto/get-trainings-response.dto';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { getTrainingStatusColor } from '../../helpers/training.helper';
 import { buildQueryParams } from 'src/app/core/helpers/query-params.helper';
+
 
 @Component({
   selector: 'app-training-list',
@@ -25,10 +26,12 @@ export class TrainingListPage implements OnInit {
   readonly trainingTypes = Object.values(TrainingTypeEnum);
   readonly trainingStatuses = Object.values(TrainingStatusEnum);
 
-  @Input() trainingList: TrainingListModel[] = [];
+  @Input() trainingList: ITraining[] = [];
   selectedTrainingType = '';
   selectedTrainingStatus = '';
   selectedDate = '';
+  selectedPageNumber = 1;
+  selectedPageLimit = 10;
 
   constructor(
     private router: Router,
@@ -41,8 +44,9 @@ export class TrainingListPage implements OnInit {
 
   loadTrainings(): void {
     let queryParams = this.buildQueryParams();
+    console.log(queryParams);
     this.trainingService.getTrainingList(queryParams).subscribe({
-      next: (response: GetTrainingsResponse) => {
+      next: (response: GetTrainingsResponseDto) => {
         this.trainingList = response.trainings;
         this.loading = false;
       },

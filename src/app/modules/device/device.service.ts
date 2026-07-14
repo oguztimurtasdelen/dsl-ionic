@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { DeviceListModel } from './device.model';
-import { GetDevicesResponse } from './interface/get-devices.response';
+import { IDevice } from './device.model';
+import { GetDevicesResponse } from './dto/get-devices-response.dto';
 
 @Injectable({
   providedIn: 'root'

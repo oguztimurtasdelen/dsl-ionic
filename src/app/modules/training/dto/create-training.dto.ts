@@ -1,9 +1,13 @@
 import { TrainingStatusEnum } from "../enums/training-status.enum";
 import { TrainingTypeEnum } from "../enums/training-type.enum";
 
-export interface CreateTrainingRequest {
+export interface CreateTrainingDto {
     profile: string;
+    device?: string;
     trainingType: TrainingTypeEnum;
     trainingStatus: TrainingStatusEnum;
-    trainingProgram: string;
+    trainingLevel?: number;
+    trainingProgram?: Object;
+    trainingResult?: Object;
 }
+

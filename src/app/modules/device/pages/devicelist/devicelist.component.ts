@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../../device.service';
-import { DeviceListModel } from '../../device.model';
+import { IDevice } from '../../device.model';
 import { IonContent, IonAlert, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonSpinner, IonList, IonListHeader, IonLabel, IonItem, IonText } from "@ionic/angular/standalone";
-import { GetDevicesResponse } from '../../interface/get-devices.response';
+import { GetDevicesResponse } from '../../dto/get-devices-response.dto';
 import { getDeviceStatusColor } from '../../helpers/device-status.helper';
 
 
@@ -18,7 +18,7 @@ export class DevicelistComponent  implements OnInit {
   loading = true;
   error: string | null = null;
 
-  devices : DeviceListModel[] = [];
+  devices : IDevice[] = [];
   pagination: GetDevicesResponse['pagination'] | null = null;
 
   constructor(

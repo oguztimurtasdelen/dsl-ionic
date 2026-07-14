@@ -11,19 +11,6 @@ export interface ITraining {
     trainingProgram: Object;
     trainingResult: Object;
     trainingMetrics: Object;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-}
-
-export interface TrainingListModel {
-    _id: string;
-    profile: string;
-    device: string;
-    trainingType: TrainingTypeEnum;
-    trainingStatus: TrainingStatusEnum;
-    trainingProgram: string;
-    trainingResult: string;
-    trainingMetrics: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
+    createdAt: Date | string;
+    updatedAt: Date | string;
 }

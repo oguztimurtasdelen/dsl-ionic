@@ -5,10 +5,11 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardT
 import { ModalController } from '@ionic/angular';
 import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { TrainingService } from '../../training.service';
-import { CreateTrainingRequest } from '../../contracts/requests/create-training.request';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { SessionService } from 'src/app/core/services/session.service';
-import { GetTrainingLevelsResponse } from '../../contracts/responses/get-training-levels.response';
+import { GetTrainingLevelsResponse } from '../../dto/get-training-levels-response.dto';
+import { ITraining } from '../../training.model';
+import { CreateTrainingResponseDto } from '../../dto/create-training-response.dto';
 
 @Component({
   selector: 'app-create-training-modal',
@@ -86,7 +87,7 @@ export class CreateTrainingModalComponent implements OnInit {
 
     if (this.createTrainingForm.valid) {
       this.trainingService.createTraining(this.createTrainingForm.value).subscribe({
-        next: () => {
+        next: (response: CreateTrainingResponseDto) => {
           this.creatingTraining = false;
           this.dismiss();
         },
@@ -96,7 +97,7 @@ export class CreateTrainingModalComponent implements OnInit {
         }
       });
     } else {
-      console.log(this.createTrainingForm.value)
+      console.log(this.createTrainingForm.value);
       this.creatingTraining = false;
     }
   }

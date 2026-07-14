@@ -1,7 +1,7 @@
-import { DeviceListModel } from '../../../modules/device/device.model';
+import { IDevice } from '../device.model';
 
 export interface GetDevicesResponse {
-  devices: DeviceListModel[];
+  devices: IDevice[];
   pagination: DevicePagination;
 
 }
