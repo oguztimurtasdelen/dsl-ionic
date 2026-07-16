@@ -7,9 +7,10 @@ import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { TrainingService } from '../../training.service';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { SessionService } from 'src/app/core/services/session.service';
-import { GetTrainingLevelsResponse } from '../../dto/get-training-levels-response.dto';
+import { GetTrainingLevelsResponse } from '../../../training-level/dto/get-training-levels-response.dto';
 import { ITraining } from '../../training.model';
 import { CreateTrainingResponseDto } from '../../dto/create-training-response.dto';
+import { TrainingLevelService } from 'src/app/modules/training-level/training-level.service';
 
 @Component({
   selector: 'app-create-training-modal',
@@ -35,6 +36,7 @@ export class CreateTrainingModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalController: ModalController,
     private trainingService: TrainingService,
+    private trainingLevelService: TrainingLevelService,
     private sessionService: SessionService
   ) {
     this.createTrainingForm = this.formBuilder.group({
@@ -57,7 +59,7 @@ export class CreateTrainingModalComponent implements OnInit {
   selectTrainingType(trainingType: TrainingTypeEnum): void {
     this.selectedTrainingType = trainingType;
     this.loadingLevels = true;
-    this.trainingService.getTrainingLevels(trainingType).subscribe({
+    this.trainingLevelService.getTrainingLevels(trainingType).subscribe({
       next: (trainingLevels: GetTrainingLevelsResponse[]) => {
         this.trainingLevels = trainingLevels;
         this.loadingLevels = false;

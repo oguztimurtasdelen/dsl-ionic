@@ -1,4 +1,4 @@
-import { TrainingTypeEnum } from "../enums/training-type.enum";
+import { TrainingTypeEnum } from "../../training/enums/training-type.enum";
 
 export interface GetTrainingLevelsResponse {
     trainingType: TrainingTypeEnum;

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { buildQueryParams } from 'src/app/core/helpers/query-params.helper';
 import { GetTrainingsResponseDto } from './dto/get-trainings-response.dto';
-import { GetTrainingLevelsResponse } from './dto/get-training-levels-response.dto';
+import { GetTrainingLevelsResponse } from '../training-level/dto/get-training-levels-response.dto';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { ITraining } from './training.model';
 import { CreateTrainingResponseDto } from './dto/create-training-response.dto';
@@ -18,10 +18,6 @@ export class TrainingService {
 
   getTrainingList(params?: Record<string, string | number | boolean | null | undefined>): Observable<GetTrainingsResponseDto> {
     return this.apiService.get('training', buildQueryParams(params));
-  }
-
-  getTrainingLevels(trainingType: string): Observable<GetTrainingLevelsResponse[]> {
-    return this.apiService.get<GetTrainingLevelsResponse[]>('training-level', buildQueryParams({ trainingType }));
   }
 
   createTraining(payload: CreateTrainingDto): Observable<CreateTrainingResponseDto> {
