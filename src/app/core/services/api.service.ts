@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { SessionService } from './session.service';
+import { buildQueryParams } from '../helpers/query-params.helper';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class ApiService {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
     */
-    return this.http.get<T>(`${this.baseUrl}/${url}`, { params, withCredentials: true});
+    return this.http.get<T>(`${this.baseUrl}/${url}`, { params: buildQueryParams(params), withCredentials: true});
   }
 
   post<T> (url: string, body: any): Observable<T> {

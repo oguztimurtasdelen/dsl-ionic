@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../../device.service';
 import { IDevice } from '../../device.model';
 import { IonContent, IonAlert, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonSpinner, IonList, IonListHeader, IonLabel, IonItem, IonText } from "@ionic/angular/standalone";
-import { GetDevicesResponse } from '../../dto/get-devices-response.dto';
-import { getDeviceStatusColor } from '../../helpers/device-status.helper';
+import { GetDevicesQueryReturnDto } from '../../dto/get-devices-query-return.dto';
+import { getDeviceStatusColor } from '../../helpers/device.helper';
+import { GetDevicesQueryDto } from '../../dto/get-devices-query.dto';
+import { DeviceStatusEnum } from '../../enums/device-status.enum';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class DevicelistComponent  implements OnInit {
   error: string | null = null;
 
   devices : IDevice[] = [];
-  pagination: GetDevicesResponse['pagination'] | null = null;
+  params: GetDevicesQueryDto = <GetDevicesQueryDto>{page: 1, limit: 10};
 
   constructor(
     private deviceService: DeviceService
@@ -30,12 +32,9 @@ export class DevicelistComponent  implements OnInit {
   }
 
   loadDevices(): void {
-    this.deviceService.getDeviceList().subscribe({
-      next: (response: GetDevicesResponse) => {
-        for (let device of response.devices) {
-          this.devices.push(device);
-        }
-        this.pagination = response.pagination;
+    this.deviceService.getDeviceList(this.params).subscribe({
+      next: (response: GetDevicesQueryReturnDto) => {
+        this.devices = response.devices;
         this.loading = false;
       },
       error: (error) => {

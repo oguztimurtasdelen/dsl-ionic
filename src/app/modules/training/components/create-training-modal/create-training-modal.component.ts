@@ -7,10 +7,12 @@ import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { TrainingService } from '../../training.service';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { SessionService } from 'src/app/core/services/session.service';
-import { GetTrainingLevelsResponse } from '../../../training-level/dto/get-training-levels-response.dto';
-import { ITraining } from '../../training.model';
+import { GetTrainingLevelsQueryReturnDto } from '../../../training-level/dto/get-training-levels-query-return.dto';
+
 import { CreateTrainingResponseDto } from '../../dto/create-training-response.dto';
 import { TrainingLevelService } from 'src/app/modules/training-level/training-level.service';
+import { GetTrainingLevelsQueryDto } from 'src/app/modules/training-level/dto/get-training-levels-query.dto';
+import { ITrainingLevel } from 'src/app/modules/training-level/training-level.model';
 
 @Component({
   selector: 'app-create-training-modal',
@@ -25,9 +27,11 @@ export class CreateTrainingModalComponent implements OnInit {
   step = 1;
   selectedTrainingType: TrainingTypeEnum | null = null;
   selectedTrainingLevel: number | null = null;
-  trainingLevels: GetTrainingLevelsResponse[] = [];
+  trainingLevels: ITrainingLevel[] = [];
   loadingLevels = false;
   creatingTraining = false;
+
+  params: GetTrainingLevelsQueryDto = <GetTrainingLevelsQueryDto>{page: 1, limit: 10};
 
   createTrainingForm: FormGroup;
 
@@ -58,10 +62,12 @@ export class CreateTrainingModalComponent implements OnInit {
 
   selectTrainingType(trainingType: TrainingTypeEnum): void {
     this.selectedTrainingType = trainingType;
+    this.params.trainingType = trainingType;
+    console.log(this.params);
     this.loadingLevels = true;
-    this.trainingLevelService.getTrainingLevels(trainingType).subscribe({
-      next: (trainingLevels: GetTrainingLevelsResponse[]) => {
-        this.trainingLevels = trainingLevels;
+    this.trainingLevelService.getTrainingLevels(this.params).subscribe({
+      next: (response: GetTrainingLevelsQueryReturnDto) => {
+        this.trainingLevels = response.trainingLevels;
         this.loadingLevels = false;
         this.step = 2;
       },

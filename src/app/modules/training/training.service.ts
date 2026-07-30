@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { buildQueryParams } from 'src/app/core/helpers/query-params.helper';
-import { GetTrainingsResponseDto } from './dto/get-trainings-response.dto';
-import { GetTrainingLevelsResponse } from '../training-level/dto/get-training-levels-response.dto';
+import { GetTrainingsQueryReturnDto } from './dto/get-trainings-query-return.dto';
 import { CreateTrainingDto } from './dto/create-training.dto';
-import { ITraining } from './training.model';
 import { CreateTrainingResponseDto } from './dto/create-training-response.dto';
+import { GetTrainingQueryDto } from './dto/get-trainings-query.dto';
 
 
 @Injectable({
@@ -16,11 +14,11 @@ export class TrainingService {
 
   constructor(private apiService: ApiService) { }
 
-  getTrainingList(params?: Record<string, string | number | boolean | null | undefined>): Observable<GetTrainingsResponseDto> {
-    return this.apiService.get('training', buildQueryParams(params));
+  getTrainingList(params?: GetTrainingQueryDto): Observable<GetTrainingsQueryReturnDto> {
+    return this.apiService.get<GetTrainingsQueryReturnDto>('training', params);
   }
 
   createTraining(payload: CreateTrainingDto): Observable<CreateTrainingResponseDto> {
-    return this.apiService.post('training', payload);
+    return this.apiService.post<CreateTrainingResponseDto>('training', payload);
   }
 }

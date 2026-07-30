@@ -5,11 +5,12 @@ import { IonContent, IonCol, IonRow, IonButton, IonBadge, IonText, IonGrid, IonS
 import { ITraining } from '../../training.model';
 import { Router } from '@angular/router';
 import { TrainingService } from '../../training.service';
-import { GetTrainingsResponseDto } from '../../dto/get-trainings-response.dto';
+import { GetTrainingsQueryReturnDto } from '../../dto/get-trainings-query-return.dto';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { getTrainingStatusColor } from '../../helpers/training.helper';
 import { buildQueryParams } from 'src/app/core/helpers/query-params.helper';
+import { GetTrainingQueryDto } from '../../dto/get-trainings-query.dto';
 
 
 @Component({
@@ -27,11 +28,12 @@ export class TrainingListPage implements OnInit {
   readonly trainingStatuses = Object.values(TrainingStatusEnum);
 
   @Input() trainingList: ITraining[] = [];
-  selectedTrainingType = '';
-  selectedTrainingStatus = '';
-  selectedDate = '';
-  selectedPageNumber = 1;
-  selectedPageLimit = 10;
+  selectedTrainingType: TrainingTypeEnum | string = '';
+  selectedTrainingStatus: TrainingStatusEnum | string = '';
+  selectedDate: string | Date = '';
+
+  trainings: ITraining[] = [];
+  params: GetTrainingQueryDto = <GetTrainingQueryDto>{page: 1, limit: 10};
 
   constructor(
     private router: Router,
@@ -43,10 +45,14 @@ export class TrainingListPage implements OnInit {
   }
 
   loadTrainings(): void {
-    let queryParams = this.buildQueryParams();
-    console.log(queryParams);
-    this.trainingService.getTrainingList(queryParams).subscribe({
-      next: (response: GetTrainingsResponseDto) => {
+    this.params.trainingType = this.selectedTrainingType as TrainingTypeEnum
+    this.params.trainingStatus = this.selectedTrainingStatus as TrainingStatusEnum
+    this.params.createdAt = this.selectedDate as string | Date; 
+
+    console.log(this.params);
+
+    this.trainingService.getTrainingList(this.params).subscribe({
+      next: (response: GetTrainingsQueryReturnDto) => {
         this.trainingList = response.trainings;
         this.loading = false;
       },
@@ -71,15 +77,8 @@ export class TrainingListPage implements OnInit {
     this.selectedTrainingType = '';
     this.selectedTrainingStatus = '';
     this.selectedDate = '';
-    this.loadTrainings();
-  }
 
-  private buildQueryParams(): Record<string, string> {
-    return buildQueryParams({
-      trainingType: this.selectedTrainingType || undefined,
-      trainingStatus: this.selectedTrainingStatus || undefined,
-      createdAt: this.selectedDate || undefined
-    });
+    this.loadTrainings();
   }
 
   getStatusColor(status: string): string {

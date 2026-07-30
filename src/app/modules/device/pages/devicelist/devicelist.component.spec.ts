@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { DeviceService } from '../../device.service';
 import { DeviceStatusEnum } from '../../enums/device-status.enum';
-import { getDeviceStatusColor } from '../../helpers/device-status.helper';
+import { getDeviceStatusColor } from '../../helpers/device.helper';
 import { DevicelistComponent } from './devicelist.component';
 
 describe('DevicelistComponent', () => {
