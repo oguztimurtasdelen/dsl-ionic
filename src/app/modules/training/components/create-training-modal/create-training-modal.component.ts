@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonSpinner, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonSpinner, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { ModalController } from '@ionic/angular';
 import { TrainingTypeEnum } from '../../enums/training-type.enum';
 import { TrainingService } from '../../training.service';
 import { TrainingStatusEnum } from '../../enums/training-status.enum';
 import { SessionService } from 'src/app/core/services/session.service';
-import { GetTrainingLevelsQueryReturnDto } from '../../../training-level/dto/get-training-levels-query-return.dto';
-
 import { CreateTrainingResponseDto } from '../../dto/create-training-response.dto';
 import { TrainingLevelService } from 'src/app/modules/training-level/training-level.service';
 import { GetTrainingLevelsQueryDto } from 'src/app/modules/training-level/dto/get-training-levels-query.dto';
-import { ITrainingLevel } from 'src/app/modules/training-level/training-level.model';
+import { GetAvailableTrainingLevelsQueryDto } from '../../dto/get-available-training-levels-query.dto';
+import { GetAvailableTrainingLevelsQueryReturnDto } from '../../dto/get-available-training-levels-query-return.dto';
 
 @Component({
   selector: 'app-create-training-modal',
@@ -20,19 +19,17 @@ import { ITrainingLevel } from 'src/app/modules/training-level/training-level.mo
   styleUrls: ['./create-training-modal.component.scss'],
   standalone: true,
   providers: [ModalController],
-  imports: [CommonModule, FormsModule, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonSpinner, IonTitle, IonToolbar],
+  imports: [CommonModule, FormsModule, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonSpinner, IonTitle, IonToolbar],
 })
 export class CreateTrainingModalComponent implements OnInit {
   readonly trainingTypes = Object.values(TrainingTypeEnum);
   step = 1;
   selectedTrainingType: TrainingTypeEnum | null = null;
   selectedTrainingLevel: number | null = null;
-  trainingLevels: ITrainingLevel[] = [];
+  trainingLevels: GetAvailableTrainingLevelsQueryReturnDto[] = [];
   loadingLevels = false;
   creatingTraining = false;
-
-  params: GetTrainingLevelsQueryDto = <GetTrainingLevelsQueryDto>{page: 1, limit: 10};
-
+  query: GetAvailableTrainingLevelsQueryDto = <GetAvailableTrainingLevelsQueryDto>{};
   createTrainingForm: FormGroup;
 
 
@@ -40,7 +37,6 @@ export class CreateTrainingModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalController: ModalController,
     private trainingService: TrainingService,
-    private trainingLevelService: TrainingLevelService,
     private sessionService: SessionService
   ) {
     this.createTrainingForm = this.formBuilder.group({
@@ -62,12 +58,16 @@ export class CreateTrainingModalComponent implements OnInit {
 
   selectTrainingType(trainingType: TrainingTypeEnum): void {
     this.selectedTrainingType = trainingType;
-    this.params.trainingType = trainingType;
-    console.log(this.params);
     this.loadingLevels = true;
-    this.trainingLevelService.getTrainingLevels(this.params).subscribe({
-      next: (response: GetTrainingLevelsQueryReturnDto) => {
-        this.trainingLevels = response.trainingLevels;
+
+    const params: GetAvailableTrainingLevelsQueryDto = <GetAvailableTrainingLevelsQueryDto>{
+      profile: this.sessionService.currentProfileID || '',
+      trainingType: trainingType
+    };
+    
+    this.trainingService.getAvailableTrainingLevels(params).subscribe({
+      next: (response: GetAvailableTrainingLevelsQueryReturnDto[]) => {
+        this.trainingLevels = response;
         this.loadingLevels = false;
         this.step = 2;
       },
@@ -75,8 +75,8 @@ export class CreateTrainingModalComponent implements OnInit {
         console.error('Failed to load training levels', error);
         this.trainingLevels = [];
         this.loadingLevels = false;
-        this.step = 2;
-      },
+        alert('Failed to load training levels. Please try again later.');
+      }
     });
   }
 
@@ -86,11 +86,14 @@ export class CreateTrainingModalComponent implements OnInit {
     this.trainingLevels = [];
   }
 
-  createTraining(selectedLevel: number): void {
+  createTraining(level: GetAvailableTrainingLevelsQueryReturnDto): void {
+    if (level.isLocked) {
+      return;
+    }
     this.creatingTraining = true;
     this.createTrainingForm.patchValue({
       trainingType: this.selectedTrainingType,
-      trainingLevel: selectedLevel,
+      trainingLevel: level.trainingLevel,
     });
 
     if (this.createTrainingForm.valid) {

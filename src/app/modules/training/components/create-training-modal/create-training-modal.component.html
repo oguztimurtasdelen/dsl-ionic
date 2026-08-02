@@ -48,12 +48,24 @@
         </div>
       } @else if (!loadingLevels && trainingLevels.length > 0) {
         <div class="card-grid">
-          <ion-card *ngFor="let level of trainingLevels" button class="training-type-card" (click)="createTraining(level.trainingLevel)">
+          <ion-card
+            *ngFor="let level of trainingLevels; let i = index"
+            button
+            class="training-type-card"
+            [class.locked]="level.isLocked"
+            [class.completed]="level.isCompleted"
+            [class.last-selectable]="!level.isLocked && (trainingLevels[i+1]?.isLocked || i === trainingLevels.length - 1)"
+            [disabled]="level.isLocked"
+            (click)="createTraining(level)">
             <ion-card-header>
               <ion-card-title>{{ level.trainingLevel }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              {{ level.trainingType }}
+              <div class="level-card-content">
+                <span>{{ level.trainingType }}</span>
+                <ion-icon name="lock-closed" *ngIf="level.isLocked"></ion-icon>
+              </div>
+              <div *ngIf="level.isLocked" class="lock-text">Locked</div>
             </ion-card-content>
           </ion-card>
         </div>

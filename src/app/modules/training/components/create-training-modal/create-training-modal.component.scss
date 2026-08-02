@@ -14,6 +14,35 @@
 .training-type-card {
   cursor: pointer;
 }
+.training-type-card.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.level-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.lock-text {
+  margin-top: 10px;
+  color: var(--ion-color-medium);
+  font-size: 0.92rem;
+}
+
+/* Completed levels show a green frame */
+.training-type-card.completed {
+  border: 2px solid var(--ion-color-success);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.02) inset;
+}
+
+/* The last selectable level is highlighted orange */
+.training-type-card.last-selectable {
+  border: 2px solid var(--ion-color-warning);
+}
 
 .loader,
 .empty-state {
