@@ -7,6 +7,7 @@ import { CreateTrainingResponseDto } from './dto/create-training-response.dto';
 import { GetTrainingQueryDto } from './dto/get-trainings-query.dto';
 import { GetAvailableTrainingLevelsQueryDto } from './dto/get-available-training-levels-query.dto';
 import { GetAvailableTrainingLevelsQueryReturnDto } from './dto/get-available-training-levels-query-return.dto';
+import { ITraining } from './training.model';
 
 
 @Injectable({
@@ -18,6 +19,10 @@ export class TrainingService {
 
   getTrainingList(params?: GetTrainingQueryDto): Observable<GetTrainingsQueryReturnDto> {
     return this.apiService.get<GetTrainingsQueryReturnDto>('training', params);
+  }
+
+  getTrainingById(id: string): Observable<ITraining> {
+    return this.apiService.get<ITraining>(`training/${id}`);
   }
 
   getAvailableTrainingLevels(params: GetAvailableTrainingLevelsQueryDto): Observable<GetAvailableTrainingLevelsQueryReturnDto[]> {

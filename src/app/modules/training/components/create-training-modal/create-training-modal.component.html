@@ -54,7 +54,7 @@
             class="training-type-card"
             [class.locked]="level.isLocked"
             [class.completed]="level.isCompleted"
-            [class.last-selectable]="!level.isLocked && (trainingLevels[i+1]?.isLocked || i === trainingLevels.length - 1)"
+            [class.last-selectable]="!level.isLocked && (trainingLevels[i+1].isLocked || i === trainingLevels.length - 1)"
             [disabled]="level.isLocked"
             (click)="createTraining(level)">
             <ion-card-header>

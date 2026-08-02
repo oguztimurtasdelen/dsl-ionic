@@ -1,0 +1,63 @@
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loader,
+.error-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: var(--ion-color-medium);
+}
+
+.summary-row,
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-row:last-child,
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chart-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.chart-value.success {
+  background: var(--ion-color-success);
+}
+
+.chart-value.fail {
+  background: var(--ion-color-danger);
+}
+
+.chart-value.average {
+  background: var(--ion-color-secondary);
+}
